@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTE Repeat Sentence & Write from Dictation – Set 1 | Modern English Australia</title>
+
+<style>
+:root{
+  --bg:#f5f5f5;
+  --card:#ffffff;
+  --ink:#1e1e1e;
+  --muted:#666;
+  --accent:#ff7a1a;
+  --line:#ccc;
+  --radius:16px;
+  --shadow:0 6px 24px rgba(0,0,0,.15);
+
+  --ok:#1db954;
+  --err:#e74c3c;
+  --soft:#f2f2f2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.75;
+}
+header{
+  background:var(--ink);
+  color:#fff;
+  padding:1.25rem;
+  text-align:center;
+  font-weight:600;
+  letter-spacing:.5px;
+}
+main{
+  max-width:900px;
+  margin:2rem auto;
+  padding:1rem;
+}
+section{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:2rem;
+  margin-bottom:2rem;
+}
+h1,h2{
+  color:var(--accent);
+  text-align:center;
+  margin-bottom:1rem;
+}
+p{margin-bottom:1rem}
+img{
+  display:block;
+  margin:1rem auto;
+  max-width:150px;
+  height:auto;
+}
+ol{
+  list-style:decimal;
+  padding-left:1.5rem;
+}
+li{margin-bottom:1.5rem}
+audio{
+  width:100%;
+  max-width:650px;
+  margin-top:.3rem;
+}
+
+/* ===== Answer UI (Repeat Sentence / Dictation style) ===== */
+.answer-wrap{
+  margin-top:.8rem;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:.9rem;
+  background: #fff;
+}
+.answer-label{
+  font-weight:700;
+  font-size:.95rem;
+  margin-bottom:.4rem;
+}
+.answer-row{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  align-items:flex-start;
+}
+textarea.answer-input{
+  flex:1 1 360px;
+  width:100%;
+  min-height:54px;
+  padding:.7rem .8rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  outline:none;
+  font: inherit;
+  resize:vertical;
+}
+textarea.answer-input:focus{
+  border-color: rgba(255,122,26,.7);
+  box-shadow: 0 0 0 3px rgba(255,122,26,.18);
+}
+
+.btn{
+  appearance:none;
+  border:none;
+  border-radius:999px;
+  padding:.65rem 1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition: transform .05s ease, opacity .2s ease;
+  white-space:nowrap;
+}
+.btn:active{ transform: translateY(1px); }
+.btn-primary{ background: var(--accent); color:#fff; }
+.btn-ghost{ background: var(--soft); color: var(--ink); border:1px solid var(--line); }
+.btn:hover{ opacity:.92; }
+
+.feedback{
+  margin-top:.65rem;
+  padding:.7rem .8rem;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.feedback.ok{
+  border-color: rgba(29,185,84,.35);
+  background: rgba(29,185,84,.08);
+}
+.feedback.err{
+  border-color: rgba(231,76,60,.35);
+  background: rgba(231,76,60,.08);
+}
+.feedback-title{
+  font-weight:800;
+  margin-bottom:.25rem;
+}
+.small{
+  font-size:.92rem;
+  color: var(--muted);
+}
+.correction{
+  margin-top:.5rem;
+  padding:.7rem .8rem;
+  border-radius:12px;
+  border:1px dashed var(--line);
+  background:#fafafa;
+}
+.correction strong{
+  display:block;
+  margin-bottom:.25rem;
+}
+
+.diff{
+  margin-top:.45rem;
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+}
+.pill{
+  display:inline-block;
+  padding:.18rem .55rem;
+  border-radius:999px;
+  font-size:.86rem;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.pill.missing{ border-color: rgba(231,76,60,.45); background: rgba(231,76,60,.08); }
+.pill.extra{ border-color: rgba(63,111,143,.45); background: rgba(63,111,143,.08); }
+
+/* ===== Gap Fill ===== */
+.gap-input{
+  display:inline-block;
+  width: min(260px, 100%);
+  padding:.65rem .8rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  outline:none;
+  font: inherit;
+  margin:.2rem .3rem;
+}
+.gap-input:focus{
+  border-color: rgba(255,122,26,.7);
+  box-shadow: 0 0 0 3px rgba(255,122,26,.18);
+}
+.gap-input.ok{
+  border-color: rgba(29,185,84,.55);
+  box-shadow: 0 0 0 3px rgba(29,185,84,.12);
+}
+.gap-input.err{
+  border-color: rgba(231,76,60,.55);
+  box-shadow: 0 0 0 3px rgba(231,76,60,.12);
+}
+.gap-actions{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top: 1rem;
+}
+
+a{
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:500;
+}
+a:hover{text-decoration:underline}
+.nav-buttons{
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  margin:2rem 0;
+}
+.nav-buttons a{
+  background:var(--accent);
+  color:#fff;
+  padding:.6rem 1.4rem;
+  border-radius:var(--radius);
+  text-decoration:none;
+  font-weight:600;
+  transition:opacity .3s;
+}
+.nav-buttons a:hover{opacity:.9}
+footer{
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  padding:1rem;
+  font-size:.9rem;
+}
+@media(max-width:600px){
+  section{padding:1.2rem}
+  ol{padding-left:1.2rem}
+}
+</style>
+</head>
+
+<body>
+<header>Modern English Australia · Koala Spies Sydney</header>
+
+<main>
+
+<section>
+  <h1> Write from Dictation – Set 2</h1>
+  <p>Here is a set of eight repeat-sentence and three write-from-dictation recordings.
+  Doing a short exercise like this daily will help you improve your listening and pronunciation accuracy.</p>
+
+  <p><strong>PTE Tip:</strong> Don’t over-practice repeat sentence. It requires intense concentration —
+  five focused minutes is better than an hour of unfocused repetition.
+  Frequent short practice sessions build confidence more effectively.</p>
+
+  <p>This set will test your knowledge of the pronunciation difference between - though,through, thorough, thought and common collocations that use them. If you’re not yet advanced, study the hints and vocab list before you start.</p>
+
+  <a href="throughlesson.html">
+    <img src="vocab-lesson.png" alt="Vocab and hints">
+  </a>
+
+  <p style="text-align:center;"><a href="throughlesson.html">Hints and Vocab List →</a></p>
+</section>
+
+<section>
+  <h2>Write from Dictation Sentences (1 – 12)</h2>
+
+  <ol>
+    <li>
+      <audio controls src="subblock_please-make-your-way-through-t.mp3"></audio>
+      <div class="answer-wrap" data-item="rs1">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_she-enjoyed-the-lecture-thoug-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs2">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_you-must-be-quiet-when-passing-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs3">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_artifacts-were-displayed-throu-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs4">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_this-innovative-design-challen.mp3"></audio>
+      <div class="answer-wrap" data-item="rs5">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_please-keep-your-phones-turned-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs6">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_the-archaeologist-conducted-a-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs7">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_through-rigorous-experimentati.mp3"></audio>
+      <div class="answer-wrap" data-item="rs8">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_you-must-be-quiet-when-passing-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs9">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+
+    <li>
+      <audio controls src="subblock_the-reesearchers-thorough-ana1-1.mp3"></audio>
+      <div class="answer-wrap" data-item="rs10">
+        <div class="answer-label">Type what you hear:</div>
+        <div class="answer-row">
+          <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
+          <button class="btn btn-primary" data-action="check">Check</button>
+          <button class="btn btn-ghost" data-action="show">Show answer</button>
+        </div>
+        <div class="feedback" hidden></div>
+        <div class="correction" hidden></div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ✅ ADD id="gap1" + .gap-input + feedback box -->
+<section id="gap1">
+  <h2>Listen and fill in the gaps</h2>
+
+  <p><strong>Choose from the following and put them in the gap:</strong></p>
+  <p>
+    thorough // thoroughly // through // throughout // though // thought<br>
+    <em>(You may use any of the above more than once)</em>
+  </p>
+
+  <p>
+    Welcome to Spanish 101.
+    1. <input class="gap-input" type="text" data-answer="throughout">
+    the course you will gain a
+    2. <input class="gap-input" type="text" data-answer="thorough">
+    understanding of basic Spanish grammar in Latin America,
+    3. <input class="gap-input" type="text" data-answer="though">
+    we will not have time to cover all the variations in Spain or Castellano as it is often referred to.
+    The main
+    4. <input class="gap-input" type="text" data-answer="thought">
+    behind this reasoning is that there are more Latin American speakers of Spanish, and even
+    5. <input class="gap-input" type="text" data-answer="though">
+    there are differences in vernacular, they are less severe than those in Spain.
+  </p>
+
+  <p><strong>Listen and check.</strong></p>
+  <audio controls src="WelcometoSpanish.mp3"></audio>
+
+  <div class="gap-actions">
+    <button type="button" class="btn btn-primary" onclick="checkGaps('gap1')">Submit</button>
+    <button type="button" class="btn btn-ghost" onclick="showAnswers('gap1')">Show answers</button>
+  </div>
+
+  <div id="gap1-feedback" class="feedback" hidden></div>
+</section>
+
+<hr>
+
+<!-- ✅ ADD id="gap2" + .gap-input + feedback box -->
+<section id="gap2">
+  <h2>2. Listen and fill in the gaps</h2>
+
+  <p><strong>Choose from the following and put them in the gap:</strong></p>
+  <p>
+    thorough // thoroughly // through // throughout // though // thought<br>
+    <em>(You may use any of the above more than once)</em>
+  </p>
+
+  <p>
+    Europe often considers itself the home of free
+    1. <input class="gap-input" type="text" data-answer="thought">,
+    from the origins of democracy in ancient Greece to the progressive movements that emerged after World War II.
+    However, many other societies in Asia
+    2. <input class="gap-input" type="text" data-answer="throughout">
+    history have exhibited remarkable progress and innovation.
+    Ancient India, with its rich philosophical traditions; China, with its diverse schools of
+    3. <input class="gap-input" type="text" data-answer="thought">
+    such as Confucianism and Taoism; and the Islamic Golden Age all serve as prime examples.
+    Historians need to undertake more
+    4. <input class="gap-input" type="text" data-answer="thorough">
+    research into these civilizations to gain a comprehensive understanding.
+  </p>
+
+  <audio controls src="Europefreethough.mp3"></audio>
+
+  <div class="gap-actions">
+    <button type="button" class="btn btn-primary" onclick="checkGaps('gap2')">Submit</button>
+    <button type="button" class="btn btn-ghost" onclick="showAnswers('gap2')">Show answers</button>
+  </div>
+
+  <div id="gap2-feedback" class="feedback" hidden></div>
+</section>
+
+<div class="nav-buttons">
+  <a href="https://koalaspiessydney.github.io/ModernEnglishAU/index.html">Home</a>
+</div>
+
+</main>
+
+<footer>© Koala Spies Sydney · Modern English Australia · All Rights Reserved</footer>
+
+<script>
+/* ============================================================
+   TRANSCRIPTS (Repeat Sentence / Dictation-style checking)
+   ============================================================ */
+const ANSWER_KEY = {
+  rs1:  "Please make your way through the registration process at the main hall.",
+  rs2:  "She enjoyed the lecture though it was quite long.",
+  rs3:  "You must be quiet when passing through the reading area.",
+  rs4:  "Artifacts were displayed throughout the museum to demonstrate the use of tools.",
+  rs5:  "This innovative design challenge provides food for thought and inspiration.",
+  rs6:  "Please keep your phones turned off throughout the lecture.",
+  rs7:  "The archaeologist conducted a thorough excavation of the ancient site.",
+  rs8:  "Professors will have done their review by the end of the week.",
+  rs9:  "You must be quiet when passing through the reading area.",
+  rs10: "The researcher’s thorough analysis of the data provided valuable insights.",
+};
+
+/* ===== Helpers ===== */
+function normalize(str){
+  return (str || "")
+    .toLowerCase()
+    .replace(/[’']/g,"'")
+    .replace(/[^a-z0-9\s']/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function words(str){
+  const n = normalize(str);
+  return n ? n.split(" ") : [];
+}
+
+/* Simple similarity: word-level overlap with light weighting */
+function similarity(user, correct){
+  const u = words(user);
+  const c = words(correct);
+  if(!c.length && !u.length) return 1;
+  if(!c.length) return 0;
+
+  const cCounts = new Map();
+  for(const w of c) cCounts.set(w, (cCounts.get(w)||0)+1);
+
+  let hits = 0;
+  for(const w of u){
+    const k = cCounts.get(w) || 0;
+    if(k>0){
+      hits++;
+      cCounts.set(w, k-1);
+    }
+  }
+  const precision = u.length ? hits / u.length : 0;
+  const recall = hits / c.length;
+  return (precision*0.45 + recall*0.55);
+}
+
+function diffPills(user, correct){
+  const u = words(user);
+  const c = words(correct);
+
+  const uCounts = new Map();
+  const cCounts = new Map();
+  for(const w of u) uCounts.set(w, (uCounts.get(w)||0)+1);
+  for(const w of c) cCounts.set(w, (cCounts.get(w)||0)+1);
+
+  const missing = [];
+  for(const [w, n] of cCounts.entries()){
+    const have = uCounts.get(w)||0;
+    if(have < n){
+      for(let i=0;i<(n-have);i++) missing.push(w);
+    }
+  }
+
+  const extra = [];
+  for(const [w, n] of uCounts.entries()){
+    const need = cCounts.get(w)||0;
+    if(n > need){
+      for(let i=0;i<(n-need);i++) extra.push(w);
+    }
+  }
+
+  return { missing, extra };
+}
+
+/* ===== Repeat Sentence Wiring ===== */
+document.querySelectorAll(".answer-wrap").forEach(wrap=>{
+  const key = wrap.dataset.item;
+  const input = wrap.querySelector(".answer-input");
+  const fb = wrap.querySelector(".feedback");
+  const corr = wrap.querySelector(".correction");
+
+  wrap.addEventListener("click", (e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+
+    const action = btn.dataset.action;
+    const correct = ANSWER_KEY[key];
+
+    if(!correct){
+      fb.hidden = false;
+      fb.className = "feedback err";
+      fb.innerHTML = `
+        <div class="feedback-title">Answer key missing</div>
+        <div class="small">Add the correct transcript for <strong>${key}</strong> inside <code>ANSWER_KEY</code>.</div>
+      `;
+      corr.hidden = true;
+      return;
+    }
+
+    if(action === "show"){
+      corr.hidden = false;
+      corr.innerHTML = `
+        <strong>Correct answer:</strong>
+        <div>${correct}</div>
+      `;
+      return;
+    }
+
+    if(action === "check"){
+      const userText = input.value.trim();
+      const score = similarity(userText, correct);
+      const pct = Math.round(score*100);
+      const exact = normalize(userText) === normalize(correct);
+      const {missing, extra} = diffPills(userText, correct);
+
+      fb.hidden = false;
+      fb.className = "feedback " + (exact || pct>=90 ? "ok" : "err");
+
+      const title = exact ? "Perfect ✅" : (pct>=90 ? "Very close ✅" : (pct>=70 ? "Good attempt" : "Needs correction"));
+
+      fb.innerHTML = `
+        <div class="feedback-title">${title}</div>
+        <div class="small">Match score: <strong>${pct}%</strong> (punctuation ignored)</div>
+        ${
+          (missing.length || extra.length) ? `
+          <div class="diff">
+            ${missing.slice(0,12).map(w=>`<span class="pill missing">missing: ${w}</span>`).join("")}
+            ${extra.slice(0,12).map(w=>`<span class="pill extra">extra: ${w}</span>`).join("")}
+            ${(missing.length>12 || extra.length>12) ? `<span class="pill">+ more…</span>` : ""}
+          </div>` : `<div class="small">No missing/extra words detected.</div>`
+        }
+      `;
+
+      if(!exact){
+        corr.hidden = false;
+        corr.innerHTML = `
+          <strong>Correction:</strong>
+          <div>${correct}</div>
+        `;
+      }else{
+        corr.hidden = true;
+      }
+    }
+  });
+});
+
+/* ============================================================
+   GAP FILL
+   - Buttons call: checkGaps('gap1') / showAnswers('gap1')
+   - Requires: <section id="gap1">, <section id="gap2">
+   - Inputs: <input class="gap-input" data-answer="...">
+   - Feedback: <div id="gap1-feedback"> ...
+   ============================================================ */
+function checkGaps(sectionId){
+  const section = document.getElementById(sectionId);
+  if(!section){
+    console.warn("Gap section not found:", sectionId, "Add id='" + sectionId + "' to the <section>.");
+    return;
+  }
+
+  const inputs = section.querySelectorAll('input[data-answer]');
+  const feedback = document.getElementById(sectionId + "-feedback");
+
+  let correct = 0;
+  let total = 0;
+
+  inputs.forEach(input=>{
+    total++;
+    const user = normalize(input.value);
+    const ans = normalize(input.dataset.answer);
+
+    input.classList.remove("ok","err");
+
+    if(user && user === ans){
+      correct++;
+      input.classList.add("ok");
+    }else{
+      input.classList.add("err");
+    }
+  });
+
+  if(feedback){
+    feedback.hidden = false;
+    feedback.className = "feedback " + (correct === total ? "ok" : "err");
+    feedback.innerHTML = `
+      <div class="feedback-title">${correct === total ? "Perfect ✅" : "Score"}</div>
+      <div class="small">You got <strong>${correct} / ${total}</strong> correct.</div>
+    `;
+  }
+}
+
+function showAnswers(sectionId){
+  const section = document.getElementById(sectionId);
+  if(!section){
+    console.warn("Gap section not found:", sectionId, "Add id='" + sectionId + "' to the <section>.");
+    return;
+  }
+
+  const inputs = section.querySelectorAll('input[data-answer]');
+  const feedback = document.getElementById(sectionId + "-feedback");
+
+  inputs.forEach(input=>{
+    input.value = input.dataset.answer || "";
+    input.classList.remove("ok","err");
+  });
+
+  if(feedback){
+    feedback.hidden = false;
+    feedback.className = "feedback ok";
+    feedback.innerHTML = `
+      <div class="feedback-title">Answers shown</div>
+      <div class="small">Now hide them and try again.</div>
+    `;
+  }
+}
+
+function resetGaps(sectionId){
+  const section = document.getElementById(sectionId);
+  if(!section) return;
+
+  const inputs = section.querySelectorAll('input[data-answer]');
+  const feedback = document.getElementById(sectionId + "-feedback");
+
+  inputs.forEach(input=>{
+    input.value = "";
+    input.classList.remove("ok","err");
+  });
+
+  if(feedback) feedback.hidden = true;
+}
+</script>
+</body>
+</html>
