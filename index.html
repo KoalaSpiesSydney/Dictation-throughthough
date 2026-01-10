@@ -6,6 +6,12 @@
 <title>PTE Repeat Sentence & Write from Dictation – Set 1 | Modern English Australia</title>
 
 <style>
+/* =========================
+   RESET + TOKENS
+   ========================= */
+*{ box-sizing:border-box; margin:0; padding:0; }
+img{ max-width:100%; height:auto; display:block; }
+
 :root{
   --bg:#f5f5f5;
   --card:#ffffff;
@@ -19,92 +25,112 @@
   --ok:#1db954;
   --err:#e74c3c;
   --soft:#f2f2f2;
+
+  --max: 1000px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+
+/* =========================
+   BASE
+   ========================= */
 body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--ink);
-  line-height:1.75;
+  line-height:1.65;
 }
-header{
-  background:var(--ink);
-  color:#fff;
-  padding:1.25rem;
-  text-align:center;
-  font-weight:600;
-  letter-spacing:.5px;
-}
+
 main{
-  max-width:900px;
-  margin:2rem auto;
-  padding:1rem;
+  max-width:var(--max);
+  margin: 1rem auto;
+  padding: 0 1rem 2rem;
 }
+
 section{
   background:var(--card);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  padding:2rem;
-  margin-bottom:2rem;
+  padding: 1.2rem;
+  margin: 1rem 0;
 }
+
 h1,h2{
   color:var(--accent);
   text-align:center;
-  margin-bottom:1rem;
+  margin-bottom:.85rem;
+  line-height:1.25;
 }
-p{margin-bottom:1rem}
-img{
-  display:block;
-  margin:1rem auto;
-  max-width:150px;
-  height:auto;
-}
+
+p{ margin: .75rem 0; }
+
 ol{
   list-style:decimal;
-  padding-left:1.5rem;
+  padding-left: 1.25rem;
 }
-li{margin-bottom:1.5rem}
+
+li{ margin: 1.2rem 0; }
+
 audio{
   width:100%;
   max-width:650px;
   margin-top:.3rem;
+  display:block;
 }
 
-/* ===== Answer UI (Repeat Sentence / Dictation style) ===== */
-.answer-wrap{
-  margin-top:.8rem;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:.9rem;
-  background: #fff;
+/* =========================
+   HEADER (mobile-first)
+   ========================= */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background:var(--ink);
+  color:#fff;
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
-.answer-label{
-  font-weight:700;
-  font-size:.95rem;
-  margin-bottom:.4rem;
-}
-.answer-row{
+
+.topbar{
+  max-width:var(--max);
+  margin:0 auto;
+  padding: 12px 16px;
   display:flex;
-  gap:.6rem;
-  flex-wrap:wrap;
-  align-items:flex-start;
-}
-textarea.answer-input{
-  flex:1 1 360px;
-  width:100%;
-  min-height:54px;
-  padding:.7rem .8rem;
-  border:1px solid var(--line);
-  border-radius:12px;
-  outline:none;
-  font: inherit;
-  resize:vertical;
-}
-textarea.answer-input:focus{
-  border-color: rgba(255,122,26,.7);
-  box-shadow: 0 0 0 3px rgba(255,122,26,.18);
+  flex-direction:column;
+  gap:10px;
 }
 
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
+
+.brand strong{
+  font-size: 15px;
+  letter-spacing:.02em;
+  color:#fff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.brand span{
+  font-size:12px;
+  color:rgba(255,255,255,.75);
+  letter-spacing:.02em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
 .btn{
   appearance:none;
   border:none;
@@ -114,11 +140,92 @@ textarea.answer-input:focus{
   cursor:pointer;
   transition: transform .05s ease, opacity .2s ease;
   white-space:nowrap;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.4rem;
+  text-decoration:none;
 }
+
 .btn:active{ transform: translateY(1px); }
 .btn-primary{ background: var(--accent); color:#fff; }
 .btn-ghost{ background: var(--soft); color: var(--ink); border:1px solid var(--line); }
 .btn:hover{ opacity:.92; }
+
+/* Make header links readable */
+.actions{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.nav-link{
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.nav-link:hover{
+  text-decoration: underline;
+}
+
+.nav-link.back{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+
+/* =========================
+   IMAGE LINK CARD
+   ========================= */
+.lesson-thumb{
+  width: min(170px, 65vw);
+  margin: 1rem auto .5rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+/* =========================
+   ANSWER UI (Repeat Sentence / Dictation)
+   ========================= */
+.answer-wrap{
+  margin-top:.8rem;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:.9rem;
+  background: #fff;
+}
+
+.answer-label{
+  font-weight:700;
+  font-size:.95rem;
+  margin-bottom:.4rem;
+}
+
+.answer-row{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  align-items:stretch;
+}
+
+textarea.answer-input{
+  flex:1 1 320px;
+  width:100%;
+  min-height:54px;
+  padding:.7rem .8rem;
+  border:1px solid var(--line);
+  border-radius:12px;
+  outline:none;
+  font: inherit;
+  resize:vertical;
+}
+
+textarea.answer-input:focus{
+  border-color: rgba(255,122,26,.7);
+  box-shadow: 0 0 0 3px rgba(255,122,26,.18);
+}
 
 .feedback{
   margin-top:.65rem;
@@ -127,22 +234,27 @@ textarea.answer-input:focus{
   border:1px solid var(--line);
   background:#fff;
 }
+
 .feedback.ok{
   border-color: rgba(29,185,84,.35);
   background: rgba(29,185,84,.08);
 }
+
 .feedback.err{
   border-color: rgba(231,76,60,.35);
   background: rgba(231,76,60,.08);
 }
+
 .feedback-title{
   font-weight:800;
   margin-bottom:.25rem;
 }
+
 .small{
   font-size:.92rem;
   color: var(--muted);
 }
+
 .correction{
   margin-top:.5rem;
   padding:.7rem .8rem;
@@ -150,6 +262,7 @@ textarea.answer-input:focus{
   border:1px dashed var(--line);
   background:#fafafa;
 }
+
 .correction strong{
   display:block;
   margin-bottom:.25rem;
@@ -161,6 +274,7 @@ textarea.answer-input:focus{
   gap:.5rem;
   flex-wrap:wrap;
 }
+
 .pill{
   display:inline-block;
   padding:.18rem .55rem;
@@ -169,10 +283,13 @@ textarea.answer-input:focus{
   border:1px solid var(--line);
   background:#fff;
 }
+
 .pill.missing{ border-color: rgba(231,76,60,.45); background: rgba(231,76,60,.08); }
 .pill.extra{ border-color: rgba(63,111,143,.45); background: rgba(63,111,143,.08); }
 
-/* ===== Gap Fill ===== */
+/* =========================
+   GAP FILL
+   ========================= */
 .gap-input{
   display:inline-block;
   width: min(260px, 100%);
@@ -183,18 +300,22 @@ textarea.answer-input:focus{
   font: inherit;
   margin:.2rem .3rem;
 }
+
 .gap-input:focus{
   border-color: rgba(255,122,26,.7);
   box-shadow: 0 0 0 3px rgba(255,122,26,.18);
 }
+
 .gap-input.ok{
   border-color: rgba(29,185,84,.55);
   box-shadow: 0 0 0 3px rgba(29,185,84,.12);
 }
+
 .gap-input.err{
   border-color: rgba(231,76,60,.55);
   box-shadow: 0 0 0 3px rgba(231,76,60,.12);
 }
+
 .gap-actions{
   display:flex;
   gap:.6rem;
@@ -203,49 +324,96 @@ textarea.answer-input:focus{
   margin-top: 1rem;
 }
 
+/* =========================
+   LINKS + FOOTER NAV
+   ========================= */
 a{
   color:var(--accent);
   text-decoration:none;
-  font-weight:500;
+  font-weight:600;
 }
-a:hover{text-decoration:underline}
+a:hover{ text-decoration:underline; }
+
 .nav-buttons{
   display:flex;
   justify-content:center;
   gap:1rem;
-  margin:2rem 0;
+  margin:1.5rem 0 0;
+  flex-wrap:wrap;
 }
+
 .nav-buttons a{
   background:var(--accent);
   color:#fff;
-  padding:.6rem 1.4rem;
-  border-radius:var(--radius);
+  padding:.65rem 1.25rem;
+  border-radius:999px;
   text-decoration:none;
-  font-weight:600;
+  font-weight:700;
   transition:opacity .3s;
 }
-.nav-buttons a:hover{opacity:.9}
+.nav-buttons a:hover{ opacity:.9 }
+
 footer{
   text-align:center;
   color:var(--muted);
   border-top:1px solid var(--line);
   padding:1rem;
   font-size:.9rem;
+  background: #fff;
 }
-@media(max-width:600px){
-  section{padding:1.2rem}
-  ol{padding-left:1.2rem}
+
+/* =========================
+   RESPONSIVE UPGRADES
+   ========================= */
+@media (min-width: 700px){
+  .topbar{
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 12px 20px;
+  }
+
+  section{
+    padding: 1.6rem;
+    margin: 1.25rem 0;
+  }
+
+  main{
+    margin: 1.5rem auto;
+    padding: 0 1.25rem 2.5rem;
+  }
+
+  .brand strong{ font-size: clamp(14px, 2.2vw, 16px); }
+}
+
+@media (min-width: 1024px){
+  section{ padding: 2rem; }
 }
 </style>
 </head>
 
 <body>
-<header>Modern English Australia · Koala Spies Sydney</header>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <strong>Modern English Australia</strong>
+      <span>Koala Spies Sydney</span>
+    </div>
+
+    <nav class="actions" aria-label="Page navigation">
+  <a class="nav-link back" href="https://koalaspiessydney.github.io/ModernEnglishAU/MEAtests.html">← Back to Sets</a>
+  <a class="nav-link" href="https://koalaspiessydney.github.io/ModernEnglishAU/">Home</a>
+</nav>
+
+  </div>
+</header>
 
 <main>
 
 <section>
-  <h1> Write from Dictation Challenge – Set 2</h1>
+  <h1>Write from Dictation Challenge – Set 2</h1>
   <p>Here is a set of 12 write-from-dictation sentences that could also be used to practice repeat-sentence activities.
   Doing a short exercise like this daily will help you improve your listening and pronunciation accuracy.</p>
 
@@ -253,11 +421,11 @@ footer{
   five focused minutes is better than an hour of unfocused repetition. However, if write-from-dictation is still difficult for you, do it with pauses and precision, practice slowly until they become easy for you.
   Frequent short practice sessions build confidence more effectively.</p>
 
-    <h1> Prelesson – Understanding though, through, thorough & thought</h1>
+  <h1>Prelesson – Understanding though, through, thorough & thought</h1>
   <p>This set will test your knowledge of the pronunciation difference between - though,through, thorough, thought and common collocations that use them. If you’re not yet advanced, study the hints and vocab list before you start.</p>
 
   <a href="throughlesson.html">
-    <img src="vocab-lesson.png" alt="Vocab and hints">
+    <img class="lesson-thumb" src="vocab-lesson.png" alt="Vocab and hints">
   </a>
 
   <p style="text-align:center;"><a href="throughlesson.html">Hints and Vocab List →</a></p>
@@ -273,8 +441,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -287,8 +455,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -301,8 +469,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -315,8 +483,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -329,8 +497,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -343,8 +511,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -357,8 +525,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -371,8 +539,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -385,8 +553,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -399,8 +567,8 @@ footer{
         <div class="answer-label">Type what you hear:</div>
         <div class="answer-row">
           <textarea class="answer-input" placeholder="Type the full sentence here…"></textarea>
-          <button class="btn btn-primary" data-action="check">Check</button>
-          <button class="btn btn-ghost" data-action="show">Show answer</button>
+          <button class="btn btn-primary" data-action="check" type="button">Check</button>
+          <button class="btn btn-ghost" data-action="show" type="button">Show answer</button>
         </div>
         <div class="feedback" hidden></div>
         <div class="correction" hidden></div>
@@ -409,9 +577,8 @@ footer{
   </ol>
 </section>
 
-<!-- ✅ ADD id="gap1" + .gap-input + feedback box -->
 <section id="gap1">
-    <h2>Bonus Activity</h2>
+  <h2>Bonus Activity</h2>
   <h2>1. Listen and fill in the gaps</h2>
 
   <p><strong>Choose from the following and put them in the gap:</strong></p>
@@ -448,7 +615,6 @@ footer{
 
 <hr>
 
-<!-- ✅ ADD id="gap2" + .gap-input + feedback box -->
 <section id="gap2">
   <h2>2. Listen and fill in the gaps</h2>
 
@@ -484,7 +650,7 @@ footer{
 </section>
 
 <div class="nav-buttons">
-  <a href="https://koalaspiessydney.github.io/ModernEnglishAU/index.html">Home</a>
+  <a href="https://koalaspiessydney.github.io/ModernEnglishAU/MEAtests.html">Home</a>
 </div>
 
 </main>
@@ -647,10 +813,6 @@ document.querySelectorAll(".answer-wrap").forEach(wrap=>{
 
 /* ============================================================
    GAP FILL
-   - Buttons call: checkGaps('gap1') / showAnswers('gap1')
-   - Requires: <section id="gap1">, <section id="gap2">
-   - Inputs: <input class="gap-input" data-answer="...">
-   - Feedback: <div id="gap1-feedback"> ...
    ============================================================ */
 function checkGaps(sectionId){
   const section = document.getElementById(sectionId);
@@ -730,7 +892,7 @@ function resetGaps(sectionId){
   if(feedback) feedback.hidden = true;
 }
 </script>
+
 </body>
 </html>
-
 
