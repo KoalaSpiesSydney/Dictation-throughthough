@@ -134,7 +134,7 @@ header{
 .btn{
   appearance:none;
   border:none;
-  border-radius:999px;
+  border-radius: 90px;
   padding:.65rem 1rem;
   font-weight:700;
   cursor:pointer;
@@ -148,7 +148,7 @@ header{
 }
 
 .btn:active{ transform: translateY(1px); }
-.btn-primary{ background: var(--accent); color:#fff; }
+.btn-primary{ background: var(--accent); color:#fff; border-radius:999px;   border-radius:90%; }
 .btn-ghost{ background: var(--soft); color: var(--ink); border:1px solid var(--line); }
 .btn:hover{ opacity:.92; }
 
@@ -230,7 +230,7 @@ textarea.answer-input:focus{
 .feedback{
   margin-top:.65rem;
   padding:.7rem .8rem;
-  border-radius:12px;
+  border-radius: 90px;
   border:1px solid var(--line);
   background:#fff;
 }
@@ -304,6 +304,7 @@ textarea.answer-input:focus{
 .gap-input:focus{
   border-color: rgba(255,122,26,.7);
   box-shadow: 0 0 0 3px rgba(255,122,26,.18);
+  border-radius: 12px;
 }
 
 .gap-input.ok{
