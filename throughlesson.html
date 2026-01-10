@@ -6,100 +6,122 @@
 <title>Hints & Vocab – Thorough / Through / Though / Thought | Modern English Australia</title>
 
 <style>
+/* =========================
+   RESET + TOKENS
+   ========================= */
+*{ box-sizing:border-box; margin:0; padding:0; }
+img{ max-width:100%; height:auto; display:block; }
 
-     :root{
-      --bg:#f6f7f5;
-      --card:#ffffff;
+:root{
+  --bg:#f6f7f5;
+  --card:#ffffff;
 
-      --ink:#111111;
-      --charcoal:#1e1e1e;
-      --muted:#5f6a66;
+  --ink:#111111;
+  --charcoal:#1e1e1e;
+  --muted:#5f6a66;
 
-      --line:rgba(0,0,0,.12);
-      --teal:#0f6f6a;
+  --line:rgba(0,0,0,.12);
+  --teal:#0f6f6a;
 
-      --radius:18px;
-      --shadow:0 10px 30px rgba(0,0,0,.10);
+  /* match your main page naming */
+  --accent: var(--teal);
 
-      --max:920px;
-    }
+  --radius:18px;
+  --shadow:0 10px 30px rgba(0,0,0,.10);
 
-    header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:var(--charcoal);
-      color:#fff;
-      border-bottom:1px solid rgba(255,255,255,.12);
-    }
+  --max:920px;
 
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 12px clamp(16px, 4vw, 28px);
-      max-width:var(--max);
-      margin:0 auto;
-    }
-  .brand{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
+  /* used by button system */
+  --soft:#f2f2f2;
+}
 
-    .brand strong{
-      font-size: clamp(14px, 2.2vw, 16px);
-      letter-spacing:.02em;
-      color:#fff;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
+/* =========================
+   HEADER (IDENTICAL STYLE: text links, no borders)
+   ========================= */
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--charcoal);
+  color:#fff;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
 
-    .brand span{
-      font-size:12px;
-      color:rgba(255,255,255,.75);
-      letter-spacing:.02em;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
+.topbar{
+  max-width:var(--max);
+  margin:0 auto;
+  padding: 12px 16px;
+  display:flex;
+  flex-direction:column;     /* mobile-first */
+  gap:10px;
+}
 
-    .actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.35);
-      background:transparent;
-      color:#fff;
-      font-size:14px;
-      line-height:1;
-      white-space:nowrap;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-    }
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
 
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.65);
-    }
+.brand strong{
+  font-size:15px;
+  letter-spacing:.02em;
+  color:#fff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-    .btn:active{
-      transform: translateY(0);
-    }
+.brand span{
+  font-size:12px;
+  color:rgba(255,255,255,.75);
+  letter-spacing:.02em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-*{box-sizing:border-box;margin:0;padding:0}
+.actions{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+/* plain header links (no border / no button box) */
+.nav-link{
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  padding:0;
+  border:none;
+  background:none;
+}
+
+.nav-link:hover{ text-decoration:underline; }
+
+.nav-link.back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* upgrade on larger screens */
+@media (min-width: 700px){
+  .topbar{
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    padding: 12px clamp(16px, 4vw, 28px);
+    gap:12px;
+  }
+  .brand strong{ font-size: clamp(14px, 2.2vw, 16px); }
+  .actions{ justify-content:flex-end; }
+}
+
+/* =========================
+   PAGE BASE
+   ========================= */
 body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
@@ -109,35 +131,41 @@ body{
 
 main{
   max-width:900px;
-  margin:2rem auto;
-  padding:1rem;
+  margin: 1rem auto;
+  padding: 0 1rem 2rem;
 }
+
 section{
   background:var(--card);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  padding:2rem;
-  margin-bottom:1.5rem;
+  padding: 1.2rem;
+  margin: 1rem 0;
 }
+
+@media (min-width: 900px){
+  section{ padding: 2rem; }
+  main{ margin: 1.5rem auto; }
+}
+
 h1,h2,h3{
   color:var(--accent);
   text-align:center;
   margin-bottom:.75rem;
+  line-height:1.25;
 }
-p{margin:.6rem 0}
-.small{color:var(--muted); font-size:.95rem}
+
+p{ margin:.6rem 0; }
+.small{ color:var(--muted); font-size:.95rem; }
+.center{ text-align:center; }
 
 .hero-img{
-  display:block;
   max-width:300px;
   width:100%;
-  height:auto;
   margin:1rem auto 0;
   border-radius:14px;
   border:1px solid var(--line);
-
 }
-
 
 audio{
   width:100%;
@@ -153,9 +181,10 @@ audio{
   background:#fff;
   margin-top:1rem;
 }
-.center{ text-align:center; }
 
-/* Buttons (same shape system as your main page) */
+/* =========================
+   BUTTONS (for page content only)
+   ========================= */
 .btn{
   appearance:none;
   border:none;
@@ -171,10 +200,12 @@ audio{
   gap:.4rem;
   text-decoration:none;
 }
+
 .btn:active{ transform: translateY(1px); }
+.btn:hover{ opacity:.92; }
+
 .btn-primary{ background: var(--accent); color:#fff; }
 .btn-ghost{ background: var(--soft); color: var(--ink); border:1px solid var(--line); }
-.btn:hover{ opacity:.92; }
 
 .bottom-nav{
   display:flex;
@@ -190,34 +221,30 @@ footer{
   border-top:1px solid var(--line);
   padding:1rem;
   font-size:.9rem;
-}
-
-@media (max-width:600px){
-  section{padding:1.2rem}
+  background:#fff;
 }
 </style>
 </head>
 
 <body>
-    <header>
+<header>
   <div class="topbar">
-      <div class="brand">
-        <strong>Modern English Australia</strong>
-        <span>Koala Spies Sydney · PTE Repeat Sentence · Set 1</span>
-      </div>
-
-      <nav class="actions" aria-label="Page navigation">
-        <a class="btn" href="D3.html">← Back to Sets</a>
-        <a class="btn" href="https://koalaspiessydney.github.io/ModernEnglishAU/">Home</a>
-      </nav>
+    <div class="brand">
+      <strong>Modern English Australia</strong>
+      <span>Koala Spies Sydney · Hints & Vocab</span>
     </div>
+
+    <nav class="actions" aria-label="Page navigation">
+      <a class="nav-link back" href="index.html">← Back to Sets</a>
+      <a class="nav-link" href="https://koalaspiessydney.github.io/ModernEnglishAU/">Home</a>
+    </nav>
+  </div>
 </header>
+
 <main>
   <section>
     <h1>Hints & Vocab</h1>
     <p class="center small">Thorough · Through · Though · Thought</p>
-
-    <!-- Use your local image file if you have it, otherwise change the src -->
     <img class="hero-img" src="pronunciaton.png" alt="Pronunciation guide" />
   </section>
 
@@ -310,24 +337,16 @@ footer{
 
     <p class="center" style="margin-top:1.25rem;">
       When you’re ready, go back to the challenge page.
+    </p>
 
     <div class="bottom-nav">
-      <!-- CHANGE these filenames to your real pages -->
-      <a class="btn btn-primary" href="DictationSet2.html">Go to practice</a>
+      <a class="btn btn-primary" href="index.html">Go to practice</a>
       <a class="btn btn-ghost" href="javascript:history.back()">Back</a>
     </div>
   </section>
- <div class="below-actions">
-        <a class="btn primary" href="D3.html">Back to sets</a>
-        <a class="btn" href="https://koalaspiessydney.github.io/ModernEnglishAU/index.html" target="_blank" rel="noopener">Home</a>
-      </div>
-    </article>
-
-  </div>
 </main>
 
 <footer>© Koala Spies Sydney · Modern English Australia · All Rights Reserved</footer>
 </body>
 </html>
-
 
